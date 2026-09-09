@@ -1,8 +1,7 @@
 {%extends 'base.html'%}
-      <!-- /.blog-main -->
 {%block content%}
- 
-     
+
+    
     {% for post in featured_posts %}
     {%if forloop.first%}
 <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark" style="background-image: url({{post.featured_image.url}});background-blend-mode: overlay;background-size:cover;">
@@ -16,10 +15,11 @@
 {%endfor%}
 
 <!-- featured post  -->
-  <h3 class="text-uppercase text-warning" style="letter-spacing:2px;">Featured Posts</h3>
+  <h3 class="text-uppercase text-warning" style="letter-spacing:2px;">Category - {{category}}</h3>
   <div class="row mb-2">
-    {%for post in featured_posts%}
-    {%if not forloop.first%}
+    {%if posts%}
+    {%for post in posts%}
+    
     <div class="col-md-6">
       <div class="card border-0" >
         <div class="card-body">
@@ -29,23 +29,13 @@
         </div>
       </div>
     </div>
-    {%endif%}
+   
 {%endfor%}
+{%else%}
+<p>No Posts Found</p>
+{%endif%}
   
-<h3 class="text-uppercase text-warning" style="letter-spacing:2px;">Recent Articles</h3>
-  <main role="main" class="container p-0">
-    <div class="row">
-      <div class="col-md-8 blog-main">
-{%for post in posts%}
-      <div class="card border-0" >
-        <div class="card-body">
-          <h3>{{post.title}}</h3>
-          <small class="mb-1 text-muted">{{post.created_at | timesince}}  | {{post.author}}</small>
-          <p class="card-text">{{post.short_description | truncatewords:20}}</p>
-        
-      </div>
-    </div>
-{%endfor%}
 
-  </div>
+
+</div>
 {%endblock%}
