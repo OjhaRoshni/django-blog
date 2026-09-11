@@ -1,0 +1,49 @@
+{%extends 'base.html'%}
+
+{%block content%}
+ <div class="row">
+<!-- load the side bar here  -->
+  {%include 'dashboard/sidebar.html' %}
+<!-- right side  -->
+ <div class="col-md-9">
+    {%if perms.auth.view_user%}
+  <h3>All Users</h3>
+  <a href="{%url 'add_user'%}" class="btn btn-dark text-light float-right mb-2">Add User</a>
+<table class="table table-hover">
+ <thead>
+    <tr>
+      <th>No</th>
+      <th>Full Name</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Active</th>
+      <th>Staff</th>
+      <th>Superuser</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for i in users %}
+    <tr>
+      <td>{{forloop.counter}}</td>
+      <td>{{i.first_name}} {{i.last_name}}</td>
+      <td>{{i.username}}</td>
+      <td>{{i.email}}</td>
+      <td>{% if i.is_active%}<i class="fa fa-check text-success"></i>{%else%}<i class="fa fa-times text-danger">{%endif%}</i></td>
+      <td>{% if i.is_staff%}<i class="fa fa-check text-success"></i>{%else%}<i class="fa fa-times text-danger">{%endif%}</i></td>
+      <td>{% if i.is_superuser%}<i class="fa fa-check text-success"></i>{%else%}<i class="fa fa-times text-danger">{%endif%}</i></td>
+      
+     
+      <td>
+        <a href="{%url 'edit_user' i.id %}"><i class="fa fa-edit text-success"></i></a>&nbsp;
+        <a href="{%url 'delete_user' i.id%}"><i class="fa fa-trash text-danger"></i></a></td>
+    </tr>
+   {%endfor%}
+  </tbody>
+</table>
+{%else%}
+<h5>You Do not have the Permissions to view this page</h5>
+{%endif%}
+ </div>
+</div>
+{%endblock%}
