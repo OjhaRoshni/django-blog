@@ -34,4 +34,5 @@ urlpatterns = [
     path('logout/',views.logout,name='logout'),
     path('dashboard/',include('dashboards.urls')),
     
+    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

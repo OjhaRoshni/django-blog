@@ -1,66 +1,1023 @@
-<!-- header  -->
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Django Blogs</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <link href="{% static 'css/blog.css'%}" rel="stylesheet">
-  </head>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Bootstrap -->
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900"
+        rel="stylesheet">
+
+
+    <style>
+
+        /* ==================================================
+           GLOBAL
+        ================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+
+            background: #f5f9ff;
+            color: #172033;
+
+            font-family: -apple-system, BlinkMacSystemFont,
+                "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+            overflow-x: hidden;
+        }
+        /* ==================================================
+   COMMON TYPOGRAPHY
+   Same typography used throughout the website
+================================================== */
+
+/* Main page text */
+
+.page-content {
+    font-family: -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    color: #172033;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* Main headings */
+
+.page-content h1,
+.page-content h2,
+.page-content h4,
+.page-content h5,
+.page-content h6 {
+    font-family: -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    color: #172033;
+
+    font-weight: 700;
+
+    line-height: 1.35;
+
+    margin-top: 0;
+}
+
+
+/* Paragraph */
+
+.page-content p {
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    color: #59677a;
+
+    margin-top: 0;
+}
+
+
+/* Blog/article title */
+
+.page-content h1 {
+    font-size: 32px;
+}
+
+
+/* Section heading */
+
+.page-content h2 {
+    font-size: 25px;
+}
+
+
+/* Card / post heading */
+
+.page-content h3 {
+    font-size: 21px;
+}
+
+
+/* Small heading */
+
+.page-content h4 {
+    font-size: 19px;
+}
+
+
+/* Small text */
+
+.page-content small {
+    font-size: 13px;
+
+    color: #8a96a6;
+}
+
+
+/* Normal links */
+
+.page-content a {
+    color: #087df5;
+
+    text-decoration: none;
+}
+
+
+/* Link hover */
+
+.page-content a:hover {
+    color: #066bd2;
+
+    text-decoration: none;
+}
+
+
+/* Metadata */
+
+.post-meta {
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    color: #8a96a6;
+}
+
+
+/* Blog content */
+
+.blog-body,
+.blog-content {
+    font-size: 14px;
+
+    line-height: 1.8;
+
+    color: #59677a;
+}
+
+
+/* Blog content headings */
+
+.blog-body h1,
+.blog-body h2,
+.blog-body h3,
+.blog-body h4,
+.blog-content h1,
+.blog-content h2,
+.blog-content h3,
+.blog-content h4 {
+    color: #172033;
+
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    margin-top: 25px;
+
+    margin-bottom: 12px;
+}
+
+
+/* Blog content paragraph */
+
+.blog-body p,
+.blog-content p {
+    font-size: 14px;
+
+    line-height: 1.8;
+
+    color: #59677a;
+
+    margin-bottom: 16px;
+}
+
+
+/* Mobile typography */
+
+@media (max-width: 767px) {
+
+    .page-content {
+        font-size: 14px;
+    }
+
+    .page-content h1 {
+        font-size: 26px;
+    }
+
+    .page-content h2 {
+        font-size: 22px;
+    }
+
+    .page-content h3 {
+        font-size: 19px;
+    }
+
+    .page-content h4 {
+        font-size: 17px;
+    }
+
+    .page-content p {
+        font-size: 14px;
+
+        line-height: 1.6;
+    }
+
+    .blog-body,
+    .blog-content {
+        font-size: 14px;
+
+        line-height: 1.7;
+    }
+
+}
+
+
+        /* ==================================================
+           MAIN CONTAINER
+        ================================================== */
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+
+            margin-left: auto;
+            margin-right: auto;
+
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+
+        /* ==================================================
+           HEADER
+        ================================================== */
+
+        .blog-header {
+            background: #ffffff;
+
+            margin-top: 22px;
+            padding: 18px 25px !important;
+
+            border-radius: 14px;
+            border: 1px solid #e5edf7;
+
+            box-shadow: 0 5px 20px rgba(8, 125, 245, 0.07);
+        }
+
+
+        /* Logo */
+
+        .blog-header-logo {
+            font-family: "Playfair Display", serif;
+
+            font-size: 27px;
+            font-weight: 700;
+
+            color: #087df5 !important;
+
+            text-decoration: none !important;
+
+            white-space: nowrap;
+        }
+
+        .blog-header-logo:hover {
+            color: #066bd2 !important;
+        }
+
+
+        /* ==================================================
+           SEARCH
+        ================================================== */
+
+        .input-group {
+            width: 100%;
+        }
+
+        .form-control {
+            height: 44px;
+
+            border: 1px solid #dce6f2;
+            border-right: none;
+
+            border-radius: 9px 0 0 9px;
+
+            padding: 0 15px;
+
+            font-size: 14px;
+
+            color: #172033;
+
+            box-shadow: none !important;
+        }
+
+        .form-control:focus {
+            border-color: #087df5;
+        }
+
+        .form-control::placeholder {
+            color: #9aa7b8;
+        }
+
+
+        /* Search button */
+
+        #button-search {
+            height: 44px;
+
+            padding: 0 20px;
+
+            background: #087df5;
+
+            border: 1px solid #087df5;
+
+            border-radius: 0 9px 9px 0;
+
+            color: #ffffff;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        #button-search:hover {
+            background: #066bd2;
+            border-color: #066bd2;
+        }
+
+
+        /* ==================================================
+           LOGIN / REGISTER
+        ================================================== */
+
+        .header-actions {
+            display: flex;
+
+            align-items: center;
+            justify-content: flex-end;
+
+            gap: 9px;
+        }
+
+        .header-actions a {
+            text-decoration: none !important;
+        }
+
+
+        .login-btn {
+            padding: 8px 17px;
+
+            background: #087df5;
+
+            border: 1px solid #087df5;
+            border-radius: 8px;
+
+            color: #ffffff !important;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .login-btn:hover {
+            background: #066bd2;
+            border-color: #066bd2;
+        }
+
+
+        .register-btn {
+            padding: 8px 17px;
+
+            background: #ffffff;
+
+            border: 1px solid #d6e1ef;
+            border-radius: 8px;
+
+            color: #087df5 !important;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .register-btn:hover {
+            background: #eef6ff;
+            border-color: #087df5;
+        }
+
+
+        /* ==================================================
+           DASHBOARD / LOGOUT
+        ================================================== */
+
+        .user-link {
+            padding: 8px 12px;
+
+            color: #4e5d70 !important;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            text-decoration: none !important;
+
+            transition: 0.2s ease;
+        }
+
+        .user-link:hover {
+            color: #087df5 !important;
+            background: #eef6ff;
+        }
+
+
+        /* ==================================================
+           CATEGORY NAVIGATION
+        ================================================== */
+/* ==================================================
+   CATEGORY NAVIGATION
+================================================== */
+
+.nav-scroller {
+    margin-top: 16px;
+    margin-bottom: 22px;
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+}
+
+.nav-scroller::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* Category navigation box */
+
+.nav-scroller nav {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5edf7;
+
+    border-radius: 12px;
+
+    padding: 6px 12px;
+
+    box-shadow: 0 4px 15px rgba(8, 125, 245, 0.05);
+
+    width: fit-content;
+
+    min-width: fit-content;
+}
+
+
+/* Individual categories */
+
+.nav-scroller .nav a {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 18px !important;
+
+    color: #59677a !important;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none !important;
+
+    white-space: nowrap;
+
+    transition: all 0.2s ease;
+}
+
+
+/* Hover */
+
+.nav-scroller .nav a:hover {
+    color: #087df5 !important;
+
+    background: #eef6ff;
+
+    transform: translateY(-1px);
+}
+
+        /* ==================================================
+           ⭐ MAIN CONTENT - IMPORTANT FIX
+        ================================================== */
+
+        .page-content {
+            width: 100%;
+
+            /*
+                Proper breathing space around
+                all Django page content
+            */
+
+            padding: 12px 18px 45px;
+
+            margin: 0 auto;
+
+            overflow: hidden;
+        }
+
+
+        /*
+            Bootstrap .row has negative margins.
+            These were causing content to touch
+            the screen/container edges.
+        */
+
+        .page-content .row {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+
+
+        /*
+            Give Bootstrap columns proper spacing
+        */
+
+        .page-content .row > [class*="col-"] {
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+
+        /*
+            Main headings
+        */
+
+        .page-content h1,
+        .page-content h2,
+        .page-content h3 {
+            margin-top: 0;
+        }
+
+
+        /*
+            Prevent images from overflowing
+        */
+
+        .page-content img {
+            max-width: 100%;
+            height: auto;
+        }
+
+
+        /*
+            Cards should not touch each other
+        */
+
+        .page-content .card {
+            margin-bottom: 24px;
+        }
+
+
+        /* ==================================================
+           FOOTER
+        ================================================== */
+
+        .blog-footer {
+            margin-top: 20px;
+
+            padding: 32px 20px;
+
+            background: #ffffff;
+
+            border-top: 1px solid #e5edf7;
+
+            text-align: center;
+
+            color: #718096;
+
+            font-size: 14px;
+        }
+
+        .blog-footer p {
+            margin: 0;
+        }
+
+        .blog-footer a {
+            color: #087df5;
+
+            font-weight: 600;
+
+            text-decoration: none;
+        }
+
+        .blog-footer a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* ==================================================
+           TABLET
+        ================================================== */
+
+        @media (max-width: 991px) {
+
+            .container {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .blog-header {
+                padding: 17px 18px !important;
+            }
+
+            .blog-header-logo {
+                font-size: 24px;
+            }
+
+            .page-content {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+        }
+
+
+        /* ==================================================
+           MOBILE
+        ================================================== */
+
+        @media (max-width: 767px) {
+
+            .container {
+                width: 100%;
+
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+
+            /* Header */
+
+            .blog-header {
+                margin-top: 10px;
+
+                padding: 18px 15px !important;
+
+                border-radius: 12px;
+            }
+
+
+            /* Logo */
+
+            .blog-header .col-4:first-child {
+                flex: 0 0 100%;
+                max-width: 100%;
+
+                padding: 0;
+
+                text-align: center;
+
+                margin-bottom: 15px;
+            }
+
+            .blog-header-logo {
+                font-size: 25px;
+            }
+
+
+            /* Search */
+
+            .blog-header .col-4:nth-child(2) {
+                flex: 0 0 100%;
+                max-width: 100%;
+
+                padding: 0;
+
+                margin-bottom: 14px;
+            }
+
+            .form-control {
+                height: 42px;
+            }
+
+            #button-search {
+                height: 42px;
+
+                padding: 0 17px;
+            }
+
+
+            /* User buttons */
+
+            .blog-header .col-4:nth-child(3) {
+                flex: 0 0 100%;
+                max-width: 100%;
+
+                padding: 0;
+
+                justify-content: center !important;
+            }
+
+            .header-actions {
+                justify-content: center;
+            }
+
+            .login-btn,
+            .register-btn {
+                padding: 8px 18px;
+            }
+
+
+            /* Category */
+
+            .nav-scroller {
+                margin-top: 12px;
+                margin-bottom: 14px !important;
+            }
+
+            .nav-scroller nav {
+                overflow-x: auto;
+
+                justify-content: center !important;
+
+                padding: 5px;
+            }
+
+            .nav-scroller .nav a {
+                padding: 10px 14px !important;
+
+                font-size: 13px;  
+            }
+
+
+            /* ⭐ Main content mobile spacing */
+
+            .page-content {
+                padding: 10px 6px 35px;
+            }
+
+
+            /*
+                Mobile columns become full width
+            */
+
+            .page-content .row > [class*="col-"] {
+                width: 100%;
+                max-width: 100%;
+
+                padding-left: 6px;
+                padding-right: 6px;
+            }
+
+
+            /* Footer */
+
+            .blog-footer {
+                margin-top: 15px;
+
+                padding: 25px 15px;
+
+                font-size: 13px;
+            }
+
+        }
+
+
+        /* ==================================================
+           SMALL MOBILE
+        ================================================== */
+
+        @media (max-width: 400px) {
+
+            .blog-header-logo {
+                font-size: 23px;
+            }
+
+            .login-btn,
+            .register-btn {
+                padding: 7px 14px;
+
+                font-size: 13px;
+            }
+
+            .nav-scroller .nav a {
+                padding: 9px 12px !important;
+
+                font-size: 12px;
+            }
+
+            .page-content {
+                padding-left: 4px;
+                padding-right: 4px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
 <body>
+
     <div class="container">
-      <header class="blog-header py-3">
-        <div class="row flex-nowrap justify-content-between align-items-center">
-          <div class="col-4 pt-1">
-            <a class="blog-header-logo text-dark" href="/">Django Blog</a>
-          </div>
-          <div class="col-4">
-            <form action="{%url 'search' %}" method="GET">
-              <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Enter search term..."  name="keyword" value="{{keyword}}"   aria-label="Enter search term..." aria-describedby="button-search">
-                        <button class="btn btn-warning" id="button-search" type="submit">Go!</button>
-              </div>
-            </form>
-          </div>
-          <div class="col-4 d-flex justify-content-end align-items-center">
-            {% if not user.is_authenticated %}
-            <a class="btn btn-sm btn-warning" href="{%url 'login' %}">Login</a> &nbsp;
-            <a class="btn btn-sm btn-outline-secondary" href="{%url 'register' %}">Register</a>
-            {%else%}
-            <span><a href="{%url 'dashboard'%}">Dashboard</a></span>
-            &emsp;
-            <span><a href="{%url 'logout' %}">Logout</a></span>
-            {%endif%}
-          </div>
+
+
+        <!-- ================================
+             HEADER
+        ================================= -->
+
+        <header class="blog-header">
+
+            <div class="row align-items-center">
+
+                <!-- Logo -->
+
+                <div class="col-4">
+
+                    <a class="blog-header-logo" href="/">
+                        Django Blog
+                    </a>
+
+                </div>
+
+
+                <!-- Search -->
+
+                <div class="col-4">
+
+                    <form action="{% url 'search' %}" method="GET">
+
+                        <div class="input-group">
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Search blogs..."
+                                name="keyword"
+                                value="{{ keyword }}"
+                                aria-label="Search blogs"
+                            >
+
+                            <button
+                                class="btn"
+                                id="button-search"
+                                type="submit"
+                            >
+                                Search
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <!-- Login / Register -->
+
+                <div class="col-4 d-flex justify-content-end align-items-center">
+
+                    {% if not user.is_authenticated %}
+
+                        <div class="header-actions">
+
+                            <a
+                                class="login-btn"
+                                href="{% url 'login' %}"
+                            >
+                                Login
+                            </a>
+
+                            <a
+                                class="register-btn"
+                                href="{% url 'register' %}"
+                            >
+                                Register
+                            </a>
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="header-actions">
+
+                            <a
+                                class="user-link"
+                                href="{% url 'dashboard' %}"
+                            >
+                                <i class="fa fa-dashboard"></i>
+                                Dashboard
+                            </a>
+
+                            <a
+                                class="user-link"
+                                href="{% url 'logout' %}"
+                            >
+                                <i class="fa fa-sign-out"></i>
+                                Logout
+                            </a>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================================
+             CATEGORY NAVIGATION
+        ================================= -->
+
+        <div class="nav-scroller">
+
+            <nav class="nav">
+
+                {% for cat in categories %}
+
+                    <a href="{% url 'post_by_category' cat.id %}">
+                        {{ cat.category_name }}
+                    </a>
+
+                {% endfor %}
+
+            </nav>
+
         </div>
-      </header>
-
-      <div class="nav-scroller py-1 mb-2">
-        <nav class="nav d-flex justify-content-between">
-          {% for cat in categories %}
-          <a class="p-2 text-muted" href="{% url 'post_by_category' cat.id %}">{{ cat.category_name }}</a>
-          {% endfor %}
-        </nav>
-      </div>
-
- 
-<!-- main content  -->
-{%block content%}
-{%endblock%}
 
 
+        <!-- ================================
+             MAIN CONTENT
+        ================================= -->
+
+        <main class="page-content">
+
+            {% block content %}
+            {% endblock %}
+
+        </main>
 
 
+    </div>
 
 
-</div>
-<footer class="blog-footer">
-  <p>Django blog built with ❤️ by <a href="#">Roshni ojha</a></p>
-</footer>
+    <!-- ================================
+         FOOTER
+    ================================= -->
+
+    <footer class="blog-footer">
+
+        <p>
+            Django Blog built with ❤️ by
+            <a href="#">
+                Roshni Ojha
+            </a>
+        </p>
+
+    </footer>
+
+
 </body>
+
 </html>

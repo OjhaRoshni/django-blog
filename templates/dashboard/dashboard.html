@@ -1,32 +1,239 @@
 {%extends 'base.html' %}
 
 {%block content%}
- <div class="row">
-<!-- left side  -->
-<!-- load the side bare here  -->
- {%include 'dashboard/sidebar.html'%}
-<!-- right side  -->
- <div class="col-md-9">
-      <span>logged in as <b> {{user}}</b></span>
-    <div class="row">
-        <div class="col">
-            <div class="card border-default mb-3">
-                <div class="card-header text-center text-uppercase font-weight-bold">All Categories</div>
-                <div class="card-body text-dark">
-                    <h5 class="card-title text-center">{{category_count}}</h5>
+
+<style>
+
+/* =========================
+   DASHBOARD PAGE
+========================= */
+
+.dashboard-page {
+    width: 100%;
+    padding: 10px 0 35px;
+}
+
+/* Dashboard Layout */
+.dashboard-page .dashboard-row {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+/* Right Content */
+.dashboard-content {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Logged In Text */
+.dashboard-user {
+    display: block;
+    margin-bottom: 20px;
+    color: #59677a;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.dashboard-user b {
+    color: #172033;
+    font-weight: 700;
+}
+
+/* =========================
+   STAT CARDS
+========================= */
+
+.dashboard-stats {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.dashboard-stat-column {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 20px;
+}
+
+.dashboard-stat-card {
+    height: 100%;
+    background: #ffffff;
+    border: 1px solid #e7edf5 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(23, 32, 51, 0.05);
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.dashboard-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(23, 32, 51, 0.08);
+}
+
+/* Card Header */
+.dashboard-stat-header {
+    padding: 15px 18px;
+    background: #f8fbff;
+    border-bottom: 1px solid #e7edf5 !important;
+    color: #172033;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+/* Card Body */
+.dashboard-stat-body {
+    padding: 25px 20px;
+    text-align: center;
+}
+
+.dashboard-stat-number {
+    margin: 0;
+    color: #087df5;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+
+    .dashboard-page {
+        padding: 5px 0 25px;
+    }
+
+    .dashboard-page .dashboard-row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .dashboard-content {
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+        margin-top: 20px;
+    }
+
+    .dashboard-user {
+        margin-bottom: 18px;
+        font-size: 13px;
+    }
+
+    .dashboard-stats {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .dashboard-stat-column {
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: 15px;
+    }
+
+    .dashboard-stat-header {
+        padding: 13px 16px;
+        font-size: 13px;
+    }
+
+    .dashboard-stat-body {
+        padding: 20px 16px;
+    }
+
+    .dashboard-stat-number {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .dashboard-stat-header {
+        font-size: 12px;
+        padding: 12px 14px;
+    }
+
+    .dashboard-stat-body {
+        padding: 18px 14px;
+    }
+
+    .dashboard-stat-number {
+        font-size: 26px;
+    }
+}
+
+</style>
+
+
+<div class="dashboard-page">
+
+    <div class="row dashboard-row">
+
+        <!-- left side -->
+        <!-- load the side bare here -->
+        {%include 'dashboard/sidebar.html'%}
+
+
+        <!-- right side -->
+        <div class="col-md-9 dashboard-content">
+
+            <span class="dashboard-user">
+                Logged in as <b>{{user}}</b>
+            </span>
+
+
+            <div class="row dashboard-stats">
+
+                <!-- All Categories -->
+                <div class="col-md-6 dashboard-stat-column">
+
+                    <div class="dashboard-stat-card">
+
+                        <div class="dashboard-stat-header text-center text-uppercase">
+                            All Categories
+                        </div>
+
+                        <div class="dashboard-stat-body">
+
+                            <h5 class="dashboard-stat-number">
+                                {{category_count}}
+                            </h5>
+
+                        </div>
+
+                    </div>
+
                 </div>
+
+
+                <!-- All Posts -->
+                <div class="col-md-6 dashboard-stat-column">
+
+                    <div class="dashboard-stat-card">
+
+                        <div class="dashboard-stat-header text-center text-uppercase">
+                            All Posts
+                        </div>
+
+                        <div class="dashboard-stat-body">
+
+                            <h5 class="dashboard-stat-number">
+                                {{blogs_count}}
+                            </h5>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
+
         </div>
 
-        <div class="col">
-            <div class="card border-default mb-3">
-                <div class="card-header text-center text-uppercase font-weight-bold">All Posts</div>
-                <div class="card-body text-dark">
-                    <h5 class="card-title text-center">{{blogs_count}}</h5>
-                </div>
-            </div>
-        </div>
     </div>
- </div>
+
 </div>
+
 {%endblock%}

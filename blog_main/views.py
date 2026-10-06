@@ -3,7 +3,7 @@ from blogs.models import Category
 from blogs.models import Blog
 from assignments.models import About 
 from .forms import RegistrationForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
 from django.contrib import auth
 
 def home(request):
@@ -25,20 +25,22 @@ def home(request):
     return render(request,'home.html', context)
 
 def register(request):
+    error = None
     if request.method == 'POST':
-        form=RegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('register')
+        username=request.POST.get("username")
+        password1=request.POST.get("password1")
+        password2=request.POST.get("password2")
+        if password1 != password2:
+              error="password doesn't match"
         else:
-            print(form.errors)
-    else:
-        form = RegistrationForm()
-    form = RegistrationForm()
-    context={
-        'form':form,
-    }
-    return render(request, 'register.html', context)
+           form = UserCreationForm(request.POST)
+           if form.is_valid():
+               form.save()
+               return redirect('login')
+           else:
+               error=form.errors
+
+    return render(request, 'register.html', {'error':error})
 
 def login(request):
     if request.method=='POST':

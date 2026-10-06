@@ -1,42 +1,289 @@
-{%extends 'base.html'%}
-
+{%extends 'base.html'%} 
+ 
 {%block content%}
- <div class="row">
-<!-- load the side bar here  -->
-  {%include 'dashboard/sidebar.html' %}
-<!-- right side  -->
- <div class="col-md-9">
-  <h3>All Posts</h3>
-  <a href="{%url 'add_posts'%}" class="btn btn-dark text-light float-right mb-2">Add New</a>
-<table class="table table-hover">
- <thead>
-    <tr>
-      <th>No</th>
-      <th>Title</th>
-      <th>Category</th>
-      <th>Author</th>
-      <th>status</th>
-      <th>Featured</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {%for post in posts %}
-    <tr>
-      <td>{{forloop.counter}}</td>
-      <td>{{post.title}}</td>
-      <td>{{post.category}}</td>
-      <td>{{post.author}}</td>
-      <td>{{post.status}}</td>
-      <td>{%if post.is_featured %}<i class="fa fa-check text-success"></i> {%else%} <i class="fa fa-times text-danger"></i> {%endif%}</td>
-     
+
+<style>
+
+/* =========================
+   ALL POSTS PAGE
+========================= */
+
+.posts-page {
+    padding: 10px 0 40px;
+}
+
+/* Right Content */
+.posts-page .col-md-9 {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+/* Heading */
+.posts-page h3 {
+    margin: 0 0 18px 0;
+    color: #172033;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+/* Add New Button */
+.posts-page .btn-dark {
+    background: #087df5 !important;
+    border: 1px solid #087df5 !important;
+    border-radius: 8px;
+    padding: 9px 17px;
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: none;
+    transition: all 0.2s ease;
+}
+
+.posts-page .btn-dark:hover {
+    background: #066bd2 !important;
+    border-color: #066bd2 !important;
+    transform: translateY(-1px);
+}
+
+/* =========================
+   POSTS TABLE
+========================= */
+
+.posts-page .table {
+    width: 100%;
+    margin-top: 12px;
+    margin-bottom: 0;
+    background: #ffffff;
+    border: 1px solid #e7edf5;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(23, 32, 51, 0.05);
+}
+
+/* Table Header */
+.posts-page .table thead th {
+    padding: 15px 16px;
+    background: #f8fbff;
+    border-bottom: 1px solid #e7edf5;
+    color: #172033;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/* Table Body */
+.posts-page .table tbody td {
+    padding: 15px 16px;
+    border-top: 1px solid #edf1f6;
+    color: #59677a;
+    font-size: 14px;
+    line-height: 1.5;
+    vertical-align: middle;
+}
+
+/* Row Hover */
+.posts-page .table-hover tbody tr {
+    transition: background 0.2s ease;
+}
+
+.posts-page .table-hover tbody tr:hover {
+    background: #f8fbff;
+}
+
+/* Title */
+.posts-page .table tbody td:nth-child(2) {
+    color: #172033;
+    font-weight: 600;
+}
+
+/* Status */
+.posts-page .table tbody td:nth-child(5) {
+    font-weight: 600;
+}
+
+/* Featured Icons */
+.posts-page .table tbody td:nth-child(6) {
+    text-align: center;
+}
+
+.posts-page .table tbody td:nth-child(6) .fa {
+    font-size: 15px;
+}
+
+/* Action */
+.posts-page .table td:last-child {
+    white-space: nowrap;
+}
+
+.posts-page .table td:last-child a {
+    display: inline-block;
+    margin-right: 8px;
+    text-decoration: none;
+}
+
+.posts-page .table td:last-child .fa {
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.posts-page .table td:last-child .fa-edit:hover {
+    color: #087df5 !important;
+    transform: scale(1.1);
+}
+
+.posts-page .table td:last-child .fa-trash:hover {
+    color: #c82333 !important;
+    transform: scale(1.1);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+
+    .posts-page {
+        padding: 5px 0 30px;
+    }
+
+    .posts-page .col-md-9 {
+        padding-left: 0;
+        padding-right: 0;
+        margin-top: 20px;
+    }
+
+    .posts-page h3 {
+        font-size: 21px;
+        margin-bottom: 15px;
+    }
+
+    .posts-page .btn-dark {
+        padding: 8px 13px;
+        font-size: 13px;
+    }
+
+    /* Horizontal scroll for table */
+    .posts-page .table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-radius: 10px;
+    }
+
+    .posts-page .table thead th {
+        padding: 13px 14px;
+        font-size: 12px;
+    }
+
+    .posts-page .table tbody td {
+        padding: 13px 14px;
+        font-size: 13px;
+    }
+
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 400px) {
+
+    .posts-page h3 {
+        font-size: 19px;
+    }
+
+    .posts-page .btn-dark {
+        padding: 7px 11px;
+        font-size: 12px;
+    }
+
+    .posts-page .table thead th {
+        padding: 12px;
+    }
+
+    .posts-page .table tbody td {
+        padding: 12px;
+    }
+
+}
+
+</style>
+
+
+<div class="posts-page">
+
+ <div class="row"> 
+ 
+<!-- load the side bar here  --> 
+  {%include 'dashboard/sidebar.html' %} 
+ 
+<!-- right side  --> 
+ <div class="col-md-9"> 
+ 
+  <h3>All Posts</h3> 
+ 
+  <a href="{%url 'add_posts'%}" class="btn btn-dark text-light float-right mb-2">
+      Add New
+  </a> 
+ 
+<table class="table table-hover"> 
+ 
+ <thead> 
+    <tr> 
+      <th>No</th> 
+      <th>Title</th> 
+      <th>Category</th> 
+      <th>Author</th> 
+      <th>status</th> 
+      <th>Featured</th> 
+      <th>Action</th> 
+    </tr> 
+  </thead> 
+ 
+  <tbody> 
+ 
+    {%for post in posts %} 
+ 
+    <tr> 
+      <td>{{forloop.counter}}</td> 
+      <td>{{post.title}}</td> 
+      <td>{{post.category}}</td> 
+      <td>{{post.author}}</td> 
+      <td>{{post.status}}</td> 
+ 
       <td>
-        <a href="{%url 'edit_post' post.id%}"><i class="fa fa-edit text-success"></i></a>&nbsp;
-        <a href="{%url 'delete_post' post.id%}"><i class="fa fa-trash text-danger"></i></a></td>
-    </tr>
-   {%endfor%}
-  </tbody>
-</table>
- </div>
+        {%if post.is_featured %}
+            <i class="fa fa-check text-success"></i>
+        {%else%}
+            <i class="fa fa-times text-danger"></i>
+        {%endif%}
+      </td> 
+      
+      <td> 
+        <a href="{%url 'edit_post' post.id%}">
+            <i class="fa fa-edit text-success"></i>
+        </a>&nbsp; 
+
+        <a href="{%url 'delete_post' post.id%}">
+            <i class="fa fa-trash text-danger"></i>
+        </a>
+      </td> 
+
+    </tr> 
+ 
+   {%endfor%} 
+ 
+  </tbody> 
+ 
+</table> 
+ 
+ </div> 
 </div>
+
+</div>
+
 {%endblock%}

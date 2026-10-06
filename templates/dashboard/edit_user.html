@@ -1,23 +1,232 @@
-    {%extends 'base.html'%}
+{%extends 'base.html'%} 
+ 
+{%block content%} 
+{% load crispy_forms_tags%}
 
-    {%block content%}
-    {% load crispy_forms_tags%}
-    <div class="row">
-    <!-- load the side bar here  -->
-    {%include 'dashboard/sidebar.html' %}
-    <!-- right side  -->
-    <div class="col-md-9">
-        {%if perms.auth.add_user%}
+<style>
+
+/* =========================
+   EDIT USER PAGE
+========================= */
+
+.edit-user-page {
+    padding: 10px 0 40px;
+}
+
+.edit-user-page .col-md-9 {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+/* Heading */
+.edit-user-page h3 {
+    margin: 0 0 20px 0;
+    color: #172033;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+/* Form */
+.edit-user-page form {
+    background: #ffffff;
+    border: 1px solid #e7edf5;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(23, 32, 51, 0.05);
+}
+
+/* Labels */
+.edit-user-page label {
+    margin-bottom: 7px;
+    color: #172033;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Inputs */
+.edit-user-page .form-control,
+.edit-user-page select,
+.edit-user-page textarea {
+    border: 1px solid #dfe6ef;
+    border-radius: 8px;
+    color: #172033;
+    background: #ffffff;
+    font-size: 14px;
+    padding: 10px 12px;
+    box-shadow: none;
+    transition: all 0.2s ease;
+}
+
+/* Focus */
+.edit-user-page .form-control:focus,
+.edit-user-page select:focus,
+.edit-user-page textarea:focus {
+    border-color: #087df5;
+    box-shadow: 0 0 0 3px rgba(8, 125, 245, 0.08);
+}
+
+/* Checkbox */
+.edit-user-page .form-check-label {
+    color: #59677a;
+    font-weight: 500;
+}
+
+/* Help Text */
+.edit-user-page .help-block,
+.edit-user-page .form-text {
+    color: #8a96a6;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Submit Button */
+.edit-user-page .btn-warning {
+    margin-top: 8px;
+    padding: 10px 20px;
+    background: #087df5 !important;
+    border: 1px solid #087df5 !important;
+    border-radius: 8px;
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: none;
+    transition: all 0.2s ease;
+}
+
+.edit-user-page .btn-warning:hover {
+    background: #066bd2 !important;
+    border-color: #066bd2 !important;
+    transform: translateY(-1px);
+}
+
+/* Error Messages */
+.edit-user-page .text-danger,
+.edit-user-page .invalid-feedback {
+    font-size: 12px;
+}
+
+
+/* =========================
+   PERMISSION MESSAGE
+========================= */
+
+.edit-user-page h5 {
+    margin: 20px 0 0;
+    padding: 18px 20px;
+    background: #ffffff;
+    border: 1px solid #e7edf5;
+    border-radius: 10px;
+    color: #59677a;
+    font-size: 15px;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(23, 32, 51, 0.04);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+
+    .edit-user-page {
+        padding: 5px 0 30px;
+    }
+
+    .edit-user-page .col-md-9 {
+        padding-left: 0;
+        padding-right: 0;
+        margin-top: 20px;
+    }
+
+    .edit-user-page h3 {
+        font-size: 21px;
+        margin-bottom: 16px;
+    }
+
+    .edit-user-page form {
+        padding: 18px;
+        border-radius: 10px;
+    }
+
+    .edit-user-page label {
+        font-size: 13px;
+    }
+
+    .edit-user-page .form-control,
+    .edit-user-page select,
+    .edit-user-page textarea {
+        font-size: 13px;
+        padding: 9px 10px;
+    }
+
+    .edit-user-page .btn-warning {
+        width: 100%;
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 400px) {
+
+    .edit-user-page h3 {
+        font-size: 19px;
+    }
+
+    .edit-user-page form {
+        padding: 16px;
+    }
+
+}
+
+</style>
+
+
+<div class="edit-user-page">
+
+<div class="row">
+
+<!-- load the side bar here  -->
+{%include 'dashboard/sidebar.html' %}
+
+<!-- right side  -->
+<div class="col-md-9">
+
+    {%if perms.auth.add_user%}
+
     <h3>Edit User</h3>
+
     <form action="" method="POST">
+
         {% csrf_token%}
+
         {{form | crispy}}
-        <button type="submit" class="btn btn-warning">Submit</button>
+
+        <button type="submit" class="btn btn-warning">
+            Submit
+        </button>
+
     </form>
+
     <br>
+
     {%else%}
+
     <h5>You do not have the Permisiion to view this page</h5>
+
     {%endif%}
-    </div>
-    </div>
-    {%endblock%}
+
+</div>
+
+</div>
+
+</div>
+
+{%endblock%}

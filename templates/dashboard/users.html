@@ -1,49 +1,341 @@
-{%extends 'base.html'%}
-
+{%extends 'base.html'%} 
+ 
 {%block content%}
- <div class="row">
-<!-- load the side bar here  -->
-  {%include 'dashboard/sidebar.html' %}
-<!-- right side  -->
- <div class="col-md-9">
-    {%if perms.auth.view_user%}
-  <h3>All Users</h3>
-  <a href="{%url 'add_user'%}" class="btn btn-dark text-light float-right mb-2">Add User</a>
-<table class="table table-hover">
- <thead>
-    <tr>
-      <th>No</th>
-      <th>Full Name</th>
-      <th>Username</th>
-      <th>Email</th>
-      <th>Active</th>
-      <th>Staff</th>
-      <th>Superuser</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {%for i in users %}
-    <tr>
-      <td>{{forloop.counter}}</td>
-      <td>{{i.first_name}} {{i.last_name}}</td>
-      <td>{{i.username}}</td>
-      <td>{{i.email}}</td>
-      <td>{% if i.is_active%}<i class="fa fa-check text-success"></i>{%else%}<i class="fa fa-times text-danger">{%endif%}</i></td>
-      <td>{% if i.is_staff%}<i class="fa fa-check text-success"></i>{%else%}<i class="fa fa-times text-danger">{%endif%}</i></td>
-      <td>{% if i.is_superuser%}<i class="fa fa-check text-success"></i>{%else%}<i class="fa fa-times text-danger">{%endif%}</i></td>
-      
-     
+
+<style>
+
+/* =========================
+   ALL USERS PAGE
+========================= */
+
+.users-page {
+    padding: 10px 0 40px;
+}
+
+.users-page .col-md-9 {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+/* Heading */
+.users-page h3 {
+    margin: 0 0 18px 0;
+    color: #172033;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+/* Add User Button */
+.users-page .btn-dark {
+    background: #087df5 !important;
+    border: 1px solid #087df5 !important;
+    border-radius: 8px;
+    padding: 9px 17px;
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: none;
+    transition: all 0.2s ease;
+}
+
+.users-page .btn-dark:hover {
+    background: #066bd2 !important;
+    border-color: #066bd2 !important;
+    transform: translateY(-1px);
+}
+
+/* =========================
+   USERS TABLE
+========================= */
+
+.users-page .table {
+    width: 100%;
+    margin-top: 12px;
+    margin-bottom: 0;
+    background: #ffffff;
+    border: 1px solid #e7edf5;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(23, 32, 51, 0.05);
+}
+
+/* Table Header */
+.users-page .table thead th {
+    padding: 15px 16px;
+    background: #f8fbff;
+    border-bottom: 1px solid #e7edf5;
+    color: #172033;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/* Table Body */
+.users-page .table tbody td {
+    padding: 15px 16px;
+    border-top: 1px solid #edf1f6;
+    color: #59677a;
+    font-size: 14px;
+    line-height: 1.5;
+    vertical-align: middle;
+}
+
+/* Row Hover */
+.users-page .table-hover tbody tr {
+    transition: background 0.2s ease;
+}
+
+.users-page .table-hover tbody tr:hover {
+    background: #f8fbff;
+}
+
+/* Username / Name */
+.users-page .table tbody td:nth-child(2),
+.users-page .table tbody td:nth-child(3) {
+    color: #172033;
+    font-weight: 600;
+}
+
+/* Status Icons */
+.users-page .table tbody td:nth-child(5),
+.users-page .table tbody td:nth-child(6),
+.users-page .table tbody td:nth-child(7) {
+    text-align: center;
+}
+
+.users-page .table tbody td .fa-check,
+.users-page .table tbody td .fa-times {
+    font-size: 15px;
+}
+
+/* Action */
+.users-page .table td:last-child {
+    white-space: nowrap;
+}
+
+.users-page .table td:last-child a {
+    display: inline-block;
+    margin-right: 8px;
+    text-decoration: none;
+}
+
+.users-page .table td:last-child .fa {
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.users-page .table td:last-child .fa-edit:hover {
+    color: #087df5 !important;
+    transform: scale(1.1);
+}
+
+.users-page .table td:last-child .fa-trash:hover {
+    color: #c82333 !important;
+    transform: scale(1.1);
+}
+
+/* Permission Message */
+.users-page h5 {
+    margin: 20px 0 0;
+    padding: 18px 20px;
+    background: #ffffff;
+    border: 1px solid #e7edf5;
+    border-radius: 10px;
+    color: #59677a;
+    font-size: 15px;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(23, 32, 51, 0.04);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+
+    .users-page {
+        padding: 5px 0 30px;
+    }
+
+    .users-page .col-md-9 {
+        padding-left: 0;
+        padding-right: 0;
+        margin-top: 20px;
+    }
+
+    .users-page h3 {
+        font-size: 21px;
+        margin-bottom: 15px;
+    }
+
+    .users-page .btn-dark {
+        padding: 8px 13px;
+        font-size: 13px;
+    }
+
+    /* Horizontal table scrolling */
+    .users-page .table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-radius: 10px;
+    }
+
+    .users-page .table thead th {
+        padding: 13px 14px;
+        font-size: 12px;
+    }
+
+    .users-page .table tbody td {
+        padding: 13px 14px;
+        font-size: 13px;
+    }
+
+    .users-page h5 {
+        font-size: 14px;
+        padding: 16px;
+    }
+
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 400px) {
+
+    .users-page h3 {
+        font-size: 19px;
+    }
+
+    .users-page .btn-dark {
+        padding: 7px 11px;
+        font-size: 12px;
+    }
+
+    .users-page .table thead th {
+        padding: 12px;
+    }
+
+    .users-page .table tbody td {
+        padding: 12px;
+    }
+
+}
+
+</style>
+
+
+<div class="users-page">
+
+ <div class="row"> 
+ 
+<!-- load the side bar here  --> 
+  {%include 'dashboard/sidebar.html' %} 
+ 
+<!-- right side  --> 
+ <div class="col-md-9"> 
+
+    {%if perms.auth.view_user%} 
+
+  <h3>All Users</h3> 
+
+  <a href="{%url 'add_user'%}" class="btn btn-dark text-light float-right mb-2">
+      Add User
+  </a> 
+ 
+<table class="table table-hover"> 
+
+ <thead> 
+    <tr> 
+      <th>No</th> 
+      <th>Full Name</th> 
+      <th>Username</th> 
+      <th>Email</th> 
+      <th>Active</th> 
+      <th>Staff</th> 
+      <th>Superuser</th> 
+      <th>Action</th> 
+    </tr> 
+  </thead> 
+
+  <tbody> 
+
+    {%for i in users %} 
+
+    <tr> 
+      <td>{{forloop.counter}}</td> 
+
       <td>
-        <a href="{%url 'edit_user' i.id %}"><i class="fa fa-edit text-success"></i></a>&nbsp;
-        <a href="{%url 'delete_user' i.id%}"><i class="fa fa-trash text-danger"></i></a></td>
-    </tr>
-   {%endfor%}
-  </tbody>
-</table>
-{%else%}
-<h5>You Do not have the Permissions to view this page</h5>
-{%endif%}
- </div>
+          {{i.first_name}} {{i.last_name}}
+      </td> 
+
+      <td>
+          {{i.username}}
+      </td> 
+
+      <td>
+          {{i.email}}
+      </td> 
+
+      <td>
+        {% if i.is_active%}
+            <i class="fa fa-check text-success"></i>
+        {%else%}
+            <i class="fa fa-times text-danger">
+        {%endif%}
+        </i>
+      </td> 
+
+      <td>
+        {% if i.is_staff%}
+            <i class="fa fa-check text-success"></i>
+        {%else%}
+            <i class="fa fa-times text-danger">
+        {%endif%}
+        </i>
+      </td> 
+
+      <td>
+        {% if i.is_superuser%}
+            <i class="fa fa-check text-success"></i>
+        {%else%}
+            <i class="fa fa-times text-danger">
+        {%endif%}
+        </i>
+      </td> 
+      
+      <td> 
+        <a href="{%url 'edit_user' i.id %}">
+            <i class="fa fa-edit text-success"></i>
+        </a>&nbsp; 
+
+        <a href="{%url 'delete_user' i.id%}">
+            <i class="fa fa-trash text-danger"></i>
+        </a>
+      </td> 
+
+    </tr> 
+
+   {%endfor%} 
+
+  </tbody> 
+
+</table> 
+
+{%else%} 
+
+<h5>You Do not have the Permissions to view this page</h5> 
+
+{%endif%} 
+
+ </div> 
 </div>
+
+</div>
+
 {%endblock%}

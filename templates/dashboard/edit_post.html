@@ -1,19 +1,212 @@
-{%extends 'base.html'%}
-
-{%block content%}
+{%extends 'base.html'%} 
+ 
+{%block content%} 
 {% load crispy_forms_tags%}
- <div class="row">
-<!-- load the side bar here  -->
-  {%include 'dashboard/sidebar.html' %}
-<!-- right side  -->
- <div class="col-md-9">
-  <h3>Edit Post</h3>
-<form action="{%url 'edit_post' post.id%}" method="POST" enctype="multipart/form-data">
-    {% csrf_token%}
-    {{form | crispy}}
-    <button type="submit" class="btn btn-warning">Submit</button>
-</form>
-<br>
- </div>
+
+<style>
+
+/* =========================
+   EDIT POST PAGE
+========================= */
+
+.edit-post-page {
+    padding: 10px 0 40px;
+}
+
+/* Right Content */
+.edit-post-page .col-md-9 {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+/* Heading */
+.edit-post-page h3 {
+    margin: 0 0 20px 0;
+    color: #172033;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+/* Form Container */
+.edit-post-page form {
+    background: #ffffff;
+    border: 1px solid #e7edf5;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(23, 32, 51, 0.05);
+}
+
+/* Crispy Form Labels */
+.edit-post-page label {
+    margin-bottom: 7px;
+    color: #172033;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Inputs */
+.edit-post-page .form-control,
+.edit-post-page select,
+.edit-post-page textarea {
+    border: 1px solid #dfe6ef;
+    border-radius: 8px;
+    color: #172033;
+    font-size: 14px;
+    padding: 10px 12px;
+    box-shadow: none;
+    transition: all 0.2s ease;
+}
+
+/* Input Focus */
+.edit-post-page .form-control:focus,
+.edit-post-page select:focus,
+.edit-post-page textarea:focus {
+    border-color: #087df5;
+    box-shadow: 0 0 0 3px rgba(8, 125, 245, 0.08);
+}
+
+/* Help Text */
+.edit-post-page .help-block,
+.edit-post-page .form-text {
+    color: #8a96a6;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Checkbox */
+.edit-post-page .form-check-label {
+    font-weight: 500;
+    color: #59677a;
+}
+
+/* Submit Button */
+.edit-post-page .btn-warning {
+    margin-top: 8px;
+    padding: 10px 20px;
+    background: #087df5 !important;
+    border: 1px solid #087df5 !important;
+    border-radius: 8px;
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: none;
+    transition: all 0.2s ease;
+}
+
+.edit-post-page .btn-warning:hover {
+    background: #066bd2 !important;
+    border-color: #066bd2 !important;
+    transform: translateY(-1px);
+}
+
+/* File Input */
+.edit-post-page input[type="file"] {
+    padding: 8px 10px;
+    background: #f8fbff;
+}
+
+/* Error Messages */
+.edit-post-page .text-danger,
+.edit-post-page .invalid-feedback {
+    font-size: 12px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+
+    .edit-post-page {
+        padding: 5px 0 30px;
+    }
+
+    .edit-post-page .col-md-9 {
+        padding-left: 0;
+        padding-right: 0;
+        margin-top: 20px;
+    }
+
+    .edit-post-page h3 {
+        font-size: 21px;
+        margin-bottom: 16px;
+    }
+
+    .edit-post-page form {
+        padding: 18px;
+        border-radius: 10px;
+    }
+
+    .edit-post-page label {
+        font-size: 13px;
+    }
+
+    .edit-post-page .form-control,
+    .edit-post-page select,
+    .edit-post-page textarea {
+        font-size: 13px;
+        padding: 9px 10px;
+    }
+
+    .edit-post-page .btn-warning {
+        width: 100%;
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 400px) {
+
+    .edit-post-page h3 {
+        font-size: 19px;
+    }
+
+    .edit-post-page form {
+        padding: 16px;
+    }
+
+}
+
+</style>
+
+
+<div class="edit-post-page">
+
+ <div class="row"> 
+ 
+<!-- load the side bar here  --> 
+  {%include 'dashboard/sidebar.html' %} 
+ 
+<!-- right side  --> 
+ <div class="col-md-9"> 
+ 
+  <h3>Edit Post</h3> 
+ 
+<form action="{%url 'edit_post' post.id%}" method="POST" enctype="multipart/form-data"> 
+ 
+    {% csrf_token%} 
+ 
+    {{form | crispy}} 
+ 
+    <button type="submit" class="btn btn-warning">
+        Submit
+    </button> 
+ 
+</form> 
+ 
+<br> 
+ 
+ </div> 
 </div>
+
+</div>
+
 {%endblock%}
